@@ -6,9 +6,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 // Interface de extensão definida pelo JUnit 5 por meio da qual os recursos do Spring Boot podem se integrar ao teste JUnit.
 @ExtendWith(SpringExtension.class)
@@ -21,14 +28,33 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class BookControllerTest {
 	
+	static String BOOK_API = "/api/books";
+	
 	// MockMvc fornece suporte para teste Spring MVC. Ele será responsável por invocar e testar o retorno das requisições.
 	@Autowired
 	MockMvc mvc;
 	
 	@Test
 	@DisplayName("Deve criar um livro com sucesso.")
-	public void createBookTest() {
+	public void createBookTest() throws Exception {
 		
+		// Gera um JSON a partir de um objeto Java e retorna o JSON gerado como uma string
+		String json = new ObjectMapper().writeValueAsString(null);
+		
+		// Serve para definir uma requisição
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+													.post(BOOK_API)
+													.contentType(MediaType.APPLICATION_JSON)
+													.accept(MediaType.APPLICATION_JSON)
+													.content(json);
+		mvc
+			.perform(request)
+			.andExpect( MockMvcResultMatchers.status().isCreated() )
+			.andExpect( MockMvcResultMatchers.jsonPath("id").isNotEmpty() )
+			.andExpect( MockMvcResultMatchers.jsonPath("title").value("Meu Livro") )
+			.andExpect( MockMvcResultMatchers.jsonPath("author").value("Autor") )
+			.andExpect( MockMvcResultMatchers.jsonPath("isbn").value("1213212") );
+			
 	}
 	
 	@Test
