@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gustavo.libraryapi.api.dto.BookDTO;
 
 
 // Interface de extensão definida pelo JUnit 5 por meio da qual os recursos do Spring Boot podem se integrar ao teste JUnit.
@@ -38,8 +39,10 @@ public class BookControllerTest {
 	@DisplayName("Deve criar um livro com sucesso.")
 	public void createBookTest() throws Exception {
 		
+		BookDTO dto = BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
+		
 		// Gera um JSON a partir de um objeto Java e retorna o JSON gerado como uma string
-		String json = new ObjectMapper().writeValueAsString(null);
+		String json = new ObjectMapper().writeValueAsString(dto);
 		
 		// Serve para definir uma requisição
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -51,9 +54,9 @@ public class BookControllerTest {
 			.perform(request)
 			.andExpect( MockMvcResultMatchers.status().isCreated() )
 			.andExpect( MockMvcResultMatchers.jsonPath("id").isNotEmpty() )
-			.andExpect( MockMvcResultMatchers.jsonPath("title").value("Meu Livro") )
-			.andExpect( MockMvcResultMatchers.jsonPath("author").value("Autor") )
-			.andExpect( MockMvcResultMatchers.jsonPath("isbn").value("1213212") );
+			.andExpect( MockMvcResultMatchers.jsonPath("title").value(dto.getTitle()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("author").value(dto.getAuthor()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("isbn").value(dto.getIsbn()) );
 			
 	}
 	
