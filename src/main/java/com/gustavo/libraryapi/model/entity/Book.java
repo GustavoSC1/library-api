@@ -1,20 +1,17 @@
-package com.gustavo.libraryapi.api.dto;
+package com.gustavo.libraryapi.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//Adiciona Getters, Setters, toString, equals e hashcode
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDTO {
-	
+public class Book {
 	private Long id;
 	private String title;
 	private String author;
 	private String isbn;
-
 }
