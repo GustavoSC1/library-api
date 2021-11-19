@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gustavo.libraryapi.api.dto.BookDTO;
 import com.gustavo.libraryapi.api.exception.ApiErrors;
+import com.gustavo.libraryapi.exception.BusinessException;
 import com.gustavo.libraryapi.model.entity.Book;
 import com.gustavo.libraryapi.service.BookService;
 
@@ -44,6 +45,12 @@ public class BookController {
 		// Vai conter todas as mensagens de erro que ocorreram ao tentar validar o objeto
 		BindingResult bindingResult =  ex.getBindingResult();
 		return new ApiErrors(bindingResult);
+	}
+	
+	@ExceptionHandler(BusinessException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiErrors handleBusinessException(BusinessException ex) {
+		return new ApiErrors(ex);
 	}
 
 }
