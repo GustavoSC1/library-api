@@ -2,6 +2,7 @@ package com.gustavo.libraryapi.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.gustavo.libraryapi.exception.BusinessException;
 import com.gustavo.libraryapi.model.entity.Book;
 import com.gustavo.libraryapi.model.repository.BookRepository;
 import com.gustavo.libraryapi.service.BookService;
@@ -21,6 +22,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Book save(Book book) {
+		if(repository.existsByIsbn(book.getIsbn())) {
+			throw new BusinessException("Isbn já cadastrado.");
+		}
 		return repository.save(book);
 	}
 
