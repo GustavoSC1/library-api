@@ -55,6 +55,7 @@ public class BookServiceTest {
 		Mockito.when(repository.existsByIsbn(Mockito.anyString())).thenReturn(true);
 		
 		// Execução
+		// catchThrowable é usado para capturar a exceção lançada 
 		Throwable exception = Assertions.catchThrowable(() -> service.save(book));
 		
 		// Verificação
