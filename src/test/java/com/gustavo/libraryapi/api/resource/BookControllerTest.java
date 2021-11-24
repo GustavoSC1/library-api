@@ -1,5 +1,7 @@
 package com.gustavo.libraryapi.api.resource;
 
+import java.util.Optional;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,6 +113,32 @@ public class BookControllerTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("errors", Matchers.hasSize(1)))
 			.andExpect(MockMvcResultMatchers.jsonPath("errors[0]").value(mensagemErro));
 		
+	}
+	
+	@Test
+	@DisplayName("Deve obter informações de um livro.")
+	public void getBookDetailsTest() throws Exception {
+		// Cenário
+		Long id = 1l;
+		Book book = Book.builder()
+						.id(id).title(createNewBook().getTitle())
+						.author(createNewBook().getAuthor())
+						.isbn(createNewBook().getIsbn())
+						.build();
+		BDDMockito.given(service.getById(id)).willReturn(Optional.of(book));
+		
+		// Execução
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.get(BOOK_API.concat("/" + id))
+				.accept(MediaType.APPLICATION_JSON);
+		
+		mvc
+			.perform(request)
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect( MockMvcResultMatchers.jsonPath("id").value(id) )
+			.andExpect( MockMvcResultMatchers.jsonPath("title").value(createNewBook().getTitle()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("author").value(createNewBook().getAuthor()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("isbn").value(createNewBook().getIsbn()) );
 	}
 	
 	private BookDTO createNewBook() {

@@ -1,5 +1,7 @@
 package com.gustavo.libraryapi.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.gustavo.libraryapi.exception.BusinessException;
@@ -26,6 +28,11 @@ public class BookServiceImpl implements BookService {
 			throw new BusinessException("Isbn já cadastrado.");
 		}
 		return repository.save(book);
+	}
+
+	@Override
+	public Optional<Book> getById(Long id) {
+		return null;
 	}
 
 }
