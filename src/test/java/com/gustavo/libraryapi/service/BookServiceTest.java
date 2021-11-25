@@ -50,7 +50,7 @@ public class BookServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Deve lançar erro de negocio ao tentar salvar um livro com isbn deplicado")
+	@DisplayName("Deve lançar erro de negocio ao tentar salvar um livro com isbn duplicado")
 	public void shouldNotSaveABookWithDuplicatedISBN() {
 		// Cenário
 		Book book = createdValidBook();
@@ -121,6 +121,40 @@ public class BookServiceTest {
 		org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> service.delete(book));
 		
 		Mockito.verify(repository, Mockito.never()).delete(book);
+	}
+	
+	@Test
+	@DisplayName("Deve ocorrer erro ao tentar atualizar livro inexistente")
+	public void updateInvalidBookTest() {
+		Book book = new Book();
+		
+		org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> service.update(book));
+		
+		Mockito.verify(repository, Mockito.never()).save(book);
+	}
+	
+	@Test
+	@DisplayName("Deve atualizar um livro")
+	public void updateBookTest() {
+		// Cenário
+		long id = 1l;
+		
+		// livro a atualizar
+		Book updatingBook = Book.builder().id(id).build();
+		
+		// Simulação
+		Book updatedBook = createdValidBook();
+		updatedBook.setId(id);
+		Mockito.when(repository.save(updatingBook)).thenReturn(updatedBook);
+		
+		// Execução
+		Book book = service.update(updatingBook);
+		
+		// Verificação
+		Assertions.assertThat(book.getId()).isEqualTo(updatedBook.getId());		
+		Assertions.assertThat(book.getTitle()).isEqualTo(updatedBook.getTitle());	
+		Assertions.assertThat(book.getIsbn()).isEqualTo(updatedBook.getIsbn());	
+		Assertions.assertThat(book.getAuthor()).isEqualTo(updatedBook.getAuthor());	
 	}
 	
 	private Book createdValidBook() {
