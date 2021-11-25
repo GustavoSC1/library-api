@@ -183,6 +183,51 @@ public class BookControllerTest {
 			.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 	
+	@Test
+	@DisplayName("Deve atualizar um livro")
+	public void updateBookTest() throws Exception {
+		Long id = 1l;
+		String json = new ObjectMapper().writeValueAsString(createNewBook());
+		
+		Book updatingBook = Book.builder().id(1l).title("some title").author("some author").isbn("321").build();
+		BDDMockito.given(service.getById(id)).willReturn(Optional.of(updatingBook));
+		
+		Book updateBook = Book.builder().id(id).author("Artur").title("As aventuras").isbn("321").build();
+		BDDMockito.given(service.update(updatingBook)).willReturn(updateBook);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.put(BOOK_API.concat("/" + 1))
+				.content(json)
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON);
+		
+		mvc.perform(request)
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect( MockMvcResultMatchers.jsonPath("id").value(id) )
+			.andExpect( MockMvcResultMatchers.jsonPath("title").value(createNewBook().getTitle()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("author").value(createNewBook().getAuthor()) )
+			.andExpect( MockMvcResultMatchers.jsonPath("isbn").value("321"));
+		
+	}
+	
+	@Test
+	@DisplayName("Deve retornar 404 ao tentar atualizar um livro inexistente")
+	public void updateInexistentBookTest() throws Exception {
+		
+		String json = new ObjectMapper().writeValueAsString(createNewBook());
+
+		BDDMockito.given(service.getById(Mockito.anyLong())).willReturn(Optional.empty());
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.put(BOOK_API.concat("/" + 1))
+				.content(json)
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON);
+		
+		mvc.perform(request)
+			.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+	
 	private BookDTO createNewBook() {
 		return BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
 	}
