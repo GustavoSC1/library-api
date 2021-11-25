@@ -1,5 +1,7 @@
 package com.gustavo.libraryapi.model.repository;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,7 @@ public class BookRepositoryTest {
 	public void returnTrueWhenIsbnExists() {
 		// Cenario
 		String isbn = "123";
-		Book book = Book.builder().title("Aventuras").author("Fulano").isbn(isbn).build();
+		Book book = createNewBook(isbn);
 		entityManager.persist(book);
 		
 		// Execução
@@ -53,6 +55,24 @@ public class BookRepositoryTest {
 		
 		// Verificação
 		Assertions.assertThat(exists).isFalse();
+	}
+	
+	@Test
+	@DisplayName("Deve obter um livro por id")
+	public void findByIdTest() {
+		// Cenario
+		Book book = createNewBook("123");
+		entityManager.persist(book);
+		
+		// Execução
+		Optional<Book> foundBook = repository.findById(book.getId());
+		
+		// Verificação
+		Assertions.assertThat(foundBook.isPresent()).isTrue();
+	}
+	
+	private Book createNewBook(String isbn) {
+		return Book.builder().title("Aventuras").author("Fulano").isbn(isbn).build();
 	}
 	
 }
