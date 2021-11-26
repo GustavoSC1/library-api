@@ -1,5 +1,6 @@
 package com.gustavo.libraryapi.api.resource;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.hamcrest.Matchers;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -226,6 +230,32 @@ public class BookControllerTest {
 		
 		mvc.perform(request)
 			.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+	
+	@Test
+	@DisplayName("Deve filtrar livros")
+	public void FindBooksTest() throws Exception {
+		
+		Long id = 1l;
+		
+		Book book = Book.builder().id(id).title(createNewBook().getTitle()).author(createNewBook().getAuthor()).isbn(createNewBook().getIsbn()).build();
+		
+		BDDMockito.given(service.find(Mockito.any(Book.class), Mockito.any(Pageable.class)))
+					.willReturn(new PageImpl<Book>(Arrays.asList(book), PageRequest.of(0, 100), 1));
+		
+		String queryString = String.format("?title=%s&author=%s&page=0&size=100",
+				book.getTitle(), book.getAuthor());
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(BOOK_API.concat(queryString))
+		.accept(MediaType.APPLICATION_JSON);
+		
+		mvc.perform(request)
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("content", Matchers.hasSize(1)))
+			.andExpect(MockMvcResultMatchers.jsonPath("totalElements").value(1))
+			.andExpect(MockMvcResultMatchers.jsonPath("pageable.pageSize").value(100))
+			.andExpect(MockMvcResultMatchers.jsonPath("pageable.pageNumber").value(0));
+		
 	}
 	
 	private BookDTO createNewBook() {

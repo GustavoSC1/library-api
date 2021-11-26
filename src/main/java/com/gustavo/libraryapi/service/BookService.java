@@ -2,6 +2,9 @@ package com.gustavo.libraryapi.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.gustavo.libraryapi.model.entity.Book;
 
 public interface BookService {
@@ -13,4 +16,6 @@ public interface BookService {
 	void delete(Book book);
 
 	Book update(Book book);
+
+	Page<Book> find(Book filter, Pageable pageRequest);
 }

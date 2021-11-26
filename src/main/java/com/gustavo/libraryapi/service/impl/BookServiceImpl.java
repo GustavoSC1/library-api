@@ -2,6 +2,8 @@ package com.gustavo.libraryapi.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.libraryapi.exception.BusinessException;
@@ -49,6 +51,12 @@ public class BookServiceImpl implements BookService {
 			throw new IllegalArgumentException("Book id cant be null");
 		}
 		return this.repository.save(book);
+	}
+
+	@Override
+	public Page<Book> find(Book filter, Pageable pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
