@@ -37,7 +37,7 @@ import com.gustavo.libraryapi.service.BookService;
 @ActiveProfiles("test")
 // É realmente um teste de unidade do seu controlador e vai apenas varrer o controlador que você definiu e a 
 //infraestrutura MVC. Se ele tiver dependência, você terá que fornecê-los você mesmo.
-@WebMvcTest
+@WebMvcTest(controllers = BookController.class)// Vai usar no teste apenas o controlador Book
 // Annotations que injeta o MockMvc no contexto da aplicação.
 @AutoConfigureMockMvc
 public class BookControllerTest {
