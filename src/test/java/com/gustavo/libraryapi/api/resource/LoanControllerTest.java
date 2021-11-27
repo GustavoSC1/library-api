@@ -39,10 +39,10 @@ public class LoanControllerTest {
 	MockMvc mvc;
 	
 	@MockBean
-	private BookService bookService;
+	BookService bookService;
 	
 	@MockBean
-	private LoanService loanService;
+	LoanService loanService;
 	
 	@Test
 	@DisplayName("Deve realizar um emprestimo")
@@ -50,8 +50,7 @@ public class LoanControllerTest {
 		
 		LoanDTO dto = LoanDTO.builder().isbn("123").customer("Fulano").build();
 		String json = new ObjectMapper().writeValueAsString(dto);
-		
-		
+				
 		Book book = Book.builder().id(1l).isbn("123").build();
 		BDDMockito.given(bookService.getBookByIsbn("123")).willReturn(Optional.of(book));
 		
@@ -65,7 +64,7 @@ public class LoanControllerTest {
 		
 		mvc.perform(request)
 				.andExpect(MockMvcResultMatchers.status().isCreated())
-				.andExpect(MockMvcResultMatchers.jsonPath("id").value(1l));
+				.andExpect(MockMvcResultMatchers.content().string("1"));
 	}
 
 }
