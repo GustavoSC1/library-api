@@ -82,10 +82,13 @@ public class BookController {
 	@GetMapping
 	public Page<BookDTO> find(BookDTO dto, Pageable pageRequest) {
 		Book filter = modelMapper.map(dto, Book.class);
+		
 		Page<Book> result = service.find(filter, pageRequest);
+		
 		List<BookDTO> list = result.getContent().stream()
 				.map(entity -> modelMapper.map(entity, BookDTO.class))
 				.collect(Collectors.toList());
+		
 		return new PageImpl<BookDTO>(list, pageRequest, result.getTotalElements());
 	}
 	
