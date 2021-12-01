@@ -1,6 +1,7 @@
 package com.gustavo.libraryapi.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,6 +85,44 @@ public class LoanServiceTest {
 							.hasMessage("Book already loaned");
 		
 		Mockito.verify(repository, Mockito.never()).save(savingLoan);
+	}
+	
+	@Test
+	@DisplayName("Deve obter as informações de um empréstimo pelo ID")
+	public void getLoanDataisTest() {
+		// Cenário
+		Long id = 1l;
+		
+		Loan loan = createLoan();
+		loan.setId(id);
+		
+		Mockito.when(repository.findById(id)).thenReturn(Optional.of(loan));
+		
+		// Execução
+		Optional<Loan> result = service.getById(id);
+		
+		// Verificação
+		Assertions.assertThat(result.isPresent()).isTrue();
+		Assertions.assertThat(result.get().getId()).isEqualTo(loan.getId());
+		Assertions.assertThat(result.get().getCustomer()).isEqualTo(loan.getCustomer());
+		Assertions.assertThat(result.get().getBook()).isEqualTo(loan.getBook());
+		Assertions.assertThat(result.get().getLoanDate()).isEqualTo(loan.getLoanDate());
+		
+		Mockito.verify(repository).findById(id);
+	}
+	
+	private Loan createLoan() {
+		Book book = Book.builder().id(1l).build();
+		String customer = "Fulano";
+		
+		Loan savingLoan = 
+				Loan.builder()
+				.book(book)
+				.customer(customer)
+				.loanDate(LocalDate.now())
+				.build();
+		
+		return savingLoan;
 	}
 	
 }
