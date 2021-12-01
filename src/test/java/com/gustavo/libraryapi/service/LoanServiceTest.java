@@ -111,6 +111,21 @@ public class LoanServiceTest {
 		Mockito.verify(repository).findById(id);
 	}
 	
+	@Test
+	@DisplayName("Deve atualizar um empréstimo")
+	public void updateLOanTest() {
+		Loan loan = createLoan();
+		loan.setId(1l);
+		loan.setReturned(true);
+		
+		Mockito.when(repository.save(loan)).thenReturn(loan);
+		
+		Loan updatedLoan = service.update(loan);
+		
+		Assertions.assertThat(updatedLoan.getReturned()).isTrue();
+		Mockito.verify(repository).save(loan);
+	}
+	
 	private Loan createLoan() {
 		Book book = Book.builder().id(1l).build();
 		String customer = "Fulano";
