@@ -1,5 +1,7 @@
 package com.gustavo.libraryapi.service.impl;
 
+import java.util.Optional;
+
 import com.gustavo.libraryapi.exception.BusinessException;
 import com.gustavo.libraryapi.model.entity.Loan;
 import com.gustavo.libraryapi.model.repository.LoanRepository;
@@ -19,6 +21,16 @@ public class LoanServiceImpl implements LoanService {
 			throw new BusinessException("Book already loaned");
 		}
 		return repository.save(loan);
+	}
+
+	@Override
+	public Optional<Loan> getById(Long id) {
+		return null;
+	}
+
+	@Override
+	public Loan update(Loan loan) {
+		return null;
 	}
 
 }
