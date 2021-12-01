@@ -108,6 +108,8 @@ public class BookServiceTest {
 		Assertions.assertThat(book.isPresent()).isFalse();
 	}
 	
+	@Test
+	@DisplayName("Deve deletar um livro")
 	public void deleteBookTest() {
 		// Cenário
 		Book book = Book.builder().id(1l).build();
@@ -164,7 +166,7 @@ public class BookServiceTest {
 	}
 	
 	@Test
-	@DisplayName("Deve filtrar livros pelas")
+	@DisplayName("Deve filtrar livros pelas propriedades")
 	public void findBookTest() {
 		// Cenário
 		Book book = createValidBook();
