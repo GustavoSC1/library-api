@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.gustavo.libraryapi.api.dto.LoanFilterDTO;
 import com.gustavo.libraryapi.exception.BusinessException;
@@ -12,6 +13,7 @@ import com.gustavo.libraryapi.model.entity.Loan;
 import com.gustavo.libraryapi.model.repository.LoanRepository;
 import com.gustavo.libraryapi.service.LoanService;
 
+@Service
 public class LoanServiceImpl implements LoanService {
 	
 	private LoanRepository repository;
