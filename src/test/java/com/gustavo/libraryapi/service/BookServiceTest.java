@@ -173,7 +173,7 @@ public class BookServiceTest {
 		
 		// Pageable: interface abstrata para informações de paginação
 		// PageRequest: é uma implementação da interface Pageable
-		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, tamanho pagina)
+		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, quantidade maximo de elementos na pagina)
 		
 		List<Book> lista = Arrays.asList(book);
 		
