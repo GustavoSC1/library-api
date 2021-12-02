@@ -173,12 +173,12 @@ public class BookServiceTest {
 		
 		// Pageable: interface abstrata para informações de paginação
 		// PageRequest: é uma implementação da interface Pageable
-		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, quantidade maximo de elementos na pagina)
+		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, quantidade maxima de elementos retornados na pagina)
 		
 		List<Book> lista = Arrays.asList(book);
 		
 		// PageImpl: Cria uma página utilziando uma lista 
-		Page<Book> page = new PageImpl<Book>(lista, pageRequest, 1); //(conteúdo desta página, informações de paginação, quantidade total de itens disponíveis)
+		Page<Book> page = new PageImpl<Book>(lista, pageRequest, 1); //(conteúdo desta página, informações de paginação, quantidade total de resultados encontrados)
 		
 		Mockito.when(repository.findAll(Mockito.any(Example.class), 
 				Mockito.any(PageRequest.class))).thenReturn(page);

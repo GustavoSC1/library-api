@@ -144,12 +144,12 @@ public class LoanServiceTest {
 		
 		// Pageable: interface abstrata para informações de paginação
 		// PageRequest: é uma implementação da interface Pageable
-		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, quantidade maximo de elementos na pagina)
+		PageRequest pageRequest = PageRequest.of(0, 10);//(pagina, quantidade maxima de elementos retornados na pagina)
 		
 		List<Loan> lista = Arrays.asList(loan);
 		
 		// PageImpl: Cria uma página utilziando uma lista 
-		Page<Loan> page = new PageImpl<Loan>(lista, pageRequest, lista.size()); //(conteúdo desta página, informações de paginação, quantidade total de itens disponíveis)
+		Page<Loan> page = new PageImpl<Loan>(lista, pageRequest, lista.size()); //(conteúdo desta página, informações de paginação, quantidade total de resultados encontrados)
 		
 		Mockito.when(repository.findByBookIsbnOrCustomer(
 				Mockito.anyString(), 
