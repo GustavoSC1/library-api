@@ -16,7 +16,7 @@ public class LibraryApiApplication {
 		return new ModelMapper();
 	}
 	
-	@Scheduled(cron = "0 42 19 1/1 * ?")
+	@Scheduled(cron = "0 42 19 1/1 * ?") //http://www.cronmaker.com/
 	public void testeAgendamentoTarefas() {
 		System.out.println("AGENDAMENTO DE TAREFAS FUNCIONANDO");
 	}
