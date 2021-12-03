@@ -21,7 +21,7 @@ public class ScheduleService {
 	private String message;
 	
 	private final LoanService loanService;
-	private final EmailSerivce emailService;
+	private final EmailService emailService;
 	
 	@Scheduled(cron = CRON_LATE_LOANS)
 	public void sendMailToLateSoans() {

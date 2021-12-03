@@ -2,7 +2,7 @@ package com.gustavo.libraryapi.service;
 
 import java.util.List;
 
-public interface EmailSerivce {
+public interface EmailService {
 
 	void sendMails(String message, List<String> mailsList);
 
