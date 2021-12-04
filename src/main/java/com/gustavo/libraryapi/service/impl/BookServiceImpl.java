@@ -18,10 +18,6 @@ public class BookServiceImpl implements BookService {
 	
 	private BookRepository repository;
 	
-	public BookServiceImpl() {
-		
-	}
-	
 	public BookServiceImpl(BookRepository repository) {
 		this.repository = repository;
 	}
