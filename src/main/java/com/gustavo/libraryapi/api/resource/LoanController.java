@@ -28,11 +28,16 @@ import com.gustavo.libraryapi.model.entity.Loan;
 import com.gustavo.libraryapi.service.BookService;
 import com.gustavo.libraryapi.service.LoanService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/loans")
 @RequiredArgsConstructor // Gera um construtor com argumentos necessários (Ex: final e @NonNull)
+@Api("Loan API")
 public class LoanController {
 	
 	private final LoanService loanService;
@@ -41,6 +46,10 @@ public class LoanController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation("Create a loan")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Loan successfully created")
+    })
 	public Long create(@RequestBody LoanDTO dto) {
 		Book book = bookService.getBookByIsbn(dto.getIsbn())
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found for passed isbn"));
@@ -55,6 +64,10 @@ public class LoanController {
 	
 	@PatchMapping("{id}")
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation("Returns a book")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book returned successfully")
+    })
 	public void returnBook(@PathVariable Long id, @RequestBody ReturnedLoanDTO dto) {
 		Loan loan = loanService.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		loan.setReturned(dto.getReturned());
@@ -62,6 +75,10 @@ public class LoanController {
 	}
 	
 	@GetMapping
+	@ApiOperation("Find loans by params")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Loans found successfully ")
+    })
 	public Page<LoanDTO> find(LoanFilterDTO dto, Pageable pageRequest) {
 		Page<Loan> result = loanService.find(dto, pageRequest);
 		List<LoanDTO> loans = result
