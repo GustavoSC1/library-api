@@ -29,6 +29,7 @@ import com.gustavo.libraryapi.api.dto.BookDTO;
 import com.gustavo.libraryapi.exception.BusinessException;
 import com.gustavo.libraryapi.model.entity.Book;
 import com.gustavo.libraryapi.service.BookService;
+import com.gustavo.libraryapi.service.LoanService;
 
 
 // Interface de extensão definida pelo JUnit 5 por meio da qual os recursos do Spring Boot podem se integrar ao teste JUnit.
@@ -51,6 +52,9 @@ public class BookControllerTest {
 	// Anotação utilizada pelo Spring para criar um Mock e adicionar no contexto de injeção de dependências
 	@MockBean
 	BookService service;
+	
+	@MockBean
+	LoanService loanService;
 	
 	@Test
 	@DisplayName("Deve criar um livro com sucesso.")
