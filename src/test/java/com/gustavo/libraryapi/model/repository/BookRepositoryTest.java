@@ -81,6 +81,8 @@ public class BookRepositoryTest {
 		Assertions.assertThat(savedBook.getId()).isNotNull();
 	}
 	
+	@Test
+	@DisplayName("Deve deletar um livro")
 	public void deleteBookTest() {
 		
 		Book book = createNewBook("123");
