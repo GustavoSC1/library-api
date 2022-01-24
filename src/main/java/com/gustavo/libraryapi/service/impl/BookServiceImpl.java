@@ -62,11 +62,9 @@ public class BookServiceImpl implements BookService {
 		Example<Book> example = Example.of(filter, 
 				ExampleMatcher
 					.matching() // Permite que as configurações sejam feitas
-					.withIgnoreCase()// Nos campos string, vai verificar no banco ignorando se o usuário passou valor em cauxa alta 
-									//	ou em caixa baixa
+					.withIgnoreCase()// Nos campos string, vai verificar no banco ignorando se o usuário passou valor em cauxa alta ou em caixa baixa
 					.withIgnoreNullValues()// Se foi passado alguma propriedade nula, será ignorada
-					.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));// Vai informar se comparação das string serão 
-												// feitas pelo início, pelo fim, em qualquer parte ou o valor exato que foi passado
+					.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));// Vai informar se comparação das string serão feitas pelo início, pelo fim, em qualquer parte ou o valor exato que foi passado
 		
 		return repository.findAll(example, pageRequest);
 	}
