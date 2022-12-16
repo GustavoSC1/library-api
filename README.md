@@ -1,6 +1,6 @@
 # Library API
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/GustavoSC1/library-api/blob/main/LICENSE)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/GustavoSC1/library-api/maven)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/GustavoSC1/library-api/maven.yml?branch=main)
 [![codecov](https://codecov.io/gh/GustavoSC1/library-api/branch/main/graph/badge.svg?token=POCBL2KT2P)](https://codecov.io/gh/GustavoSC1/library-api)
 
 API: https://gustavo-library-api.herokuapp.com/
